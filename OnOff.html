@@ -2,84 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>数据驱动评分</title>
+    <title>开关</title>
     <style>
-    
-    #app {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-    }
-    .star-rating {
-        color: gold;
-        display: inline-block;
-        font-size: 4em;
-        position: relative;
-        transform: translate(-6px);
-    }
-    .star-rating__max,
-    .star-rating__current {
-        position: absolute;
-        top: 0;
-    }
-    .star-rating__current {
-        overflow: hidden;
-        white-space: nowrap;
-    }
 
+    /* 引入字体 */
+    @import url(https://fonts.googleapis.com/css?family=Sanchez);
+
+    *,
+    *::before,
+    *::after {
+        transition: 400ms all ease-in-out 50ms;
+        box-sizing: border-box;
+        backface-visibility: hidden;
+    }
+    html, body {
+        text-align: center;
+        font-family: 'Sanchez', serif;
+    }
+    /* 隐藏默认按钮默认样式 */
+    input[type="checkbox"] {
+        display: none;
+    }
+    /* a {
+        color: rgba(43,43,43,1);
+        text-decoration: none;
+        padding: 10px;
+        border-bottom: 2px solid rgba(43,43,43,1);
+    }
+    a:hover {
+        background: rgba(43,43,43,1);
+        color: rgb(212, 135, 135);
+    } */
+    /* 点击变色 */
+    input[type="checkbox"]:checked ~ div {
+        background: rgba(73,168,68,1);
+    }
+    /* 点击旋转 */
+    input[type="checkbox"]:checked ~ div label {
+        left: 110px;
+        transform: rotate(360deg);
+    }
+    div,label {
+        border-radius: 50px;
+    }
+    /* 开关容器 */
+    div {
+        height: 100px;
+        width: 200px;
+        background: rgba(43,43,43,1);
+        position: relative;
+        top: calc(50vh - 50px);
+        left: calc(50vw - 100px);
+        box-shadow: 0 0 2px rgba(43,43,43,1);
+    }
+    /* 圆 */
+    label {
+        height: 80px;
+        width: 80px;
+        background: rgba(255,255,255,1);
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+    }
+    /* 勾勾叉叉 */
+    label::before {
+        content: '';
+        height: 60px;
+        width: 5px;
+        position: absolute;
+        top: calc(50% - 30%);
+        left: calc(50% - 2.5px);
+        transform: rotate(45deg);
+    }
+    label::after {
+        content: '';
+        height: 5px;
+        width: 60px;
+        position: absolute;
+        top: calc(50% - 2.5px);
+        left: calc(50% - 30px);
+        transform: rotate(45deg);
+    }
+    label::before,
+    label:after {
+        background: rgba(43,43,43,1);
+        border-radius: 5px;
+    }
+    /* 勾勾 */
+    input[type='checkbox']:checked ~ div label::before {
+        height: 50px;
+        top: calc(55% - 25px);
+        left: calc(60% - 2.5px);
+        background: rgba(73,168,68,1);
+    }
+    input[type="checkbox"]:checked ~ div label::after {
+        width: 20px;
+        top: calc(95% - 25px);
+        left: calc(22.5% - 2.5px);
+        background: rgba(73,168,68,1);
+    }
     
     </style>
 </head>
 <body>
-    <div id="app">
-        <div class="card">
-            <div class="card-contnet">
-                <div class="media-content">
-                    <p class="title is-4">星级评定</p>
-                    <p class="subtitle is-6">一个用VUE实现的星级评定组件</p>
-                </div>
-                <star-rating :max="5":current="value"></star-rating>
-                <br>
-                <button class="button" @click="randomValue">Play with values ({{value}})</button>
-            </div>
-        </div>
+    <h2>rolling toggle</h2>
+    <input type="checkbox" id="toggle">
+    <div>
+        <label for="toggle"></label>
     </div>
-    <script src="vue.js"></script>
-    <script id="star-rating">
-    
-    <div class="star-rating">
-        <span v-for="n in max">&star;</span>
-        <div class="star-rating__current" :style="{width: getRating + '%'}">
-            <span v-for="n in max">&starf;</span>
-        </div>
-    </div>
-    
-    </script>
-    <script>
-    
-    Vue.component('star-rating', {
-        template: '#star-rating',
-        props: ['max', 'current'],
-        computed: {
-            getRating: function() {
-                return (this.current / this.max) * 100
-            }
-        }
-    })
-
-    new Vue({
-        el: '#app',
-        data: {
-            value: 4
-        },
-        methods: {
-            randomValue: function () {
-                this.value = (Math.random()*4+1).toFixed(2)
-            }
-        }
-    })
-    
-    </script>
 </body>
 </html>
